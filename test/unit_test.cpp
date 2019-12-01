@@ -70,7 +70,7 @@ TEST(dict, array_dict_add_get) {
     ASSERT_EQ(val, 4);
 }
 
-TEST(dict, contains) {
+TEST(dict, containsSet1) {
     // homework
     ArrayDictionary<int, int> hashTable;
     //hashTable.valueSetSize(0);
@@ -78,29 +78,43 @@ TEST(dict, contains) {
     ASSERT_FALSE(hashTable.contain(-1)); // placeholder
     ASSERT_FALSE(hashTable.contain(0));
     ASSERT_FALSE(hashTable.contain(1));
-
+}
+TEST(dict, containsSet2) {
+    ArrayDictionary<int, int> hashTable(1);
     //set 2
     ASSERT_TRUE(hashTable.add(0, 103));
 
     ASSERT_FALSE(hashTable.contain(2));
     ASSERT_TRUE(hashTable.contain(0));
-
+}
+TEST(dict, containsSet3) {
+    ArrayDictionary<int, int> hashTable(2);
     //set 3
+    ASSERT_TRUE(hashTable.add(0, 103));
     ASSERT_TRUE(hashTable.add(1, 105));
 
     ASSERT_TRUE(hashTable.contain(0));
     ASSERT_TRUE(hashTable.contain(1));
     ASSERT_FALSE(hashTable.contain(2));
     ASSERT_FALSE(hashTable.contain(3));
-
+}
+TEST(dict, containsSet4) {
+    ArrayDictionary<int, int> hashTable(3);
     //set 4
-    //hashTable.valueSetSize(3);
+    ASSERT_TRUE(hashTable.add(0, 103));
+    ASSERT_TRUE(hashTable.add(1, 105));
+
     ASSERT_FALSE(hashTable.contain(3));
 
-    ASSERT_TRUE(hashTable.add(2,206));
+    ASSERT_TRUE(hashTable.add(2, 206));
     ASSERT_TRUE(hashTable.contain(1));
-
+}
+TEST(dict, containsSet5) {
+    ArrayDictionary<int, int> hashTable(3);
     //set 5
+    ASSERT_TRUE(hashTable.add(0, 103));
+    ASSERT_TRUE(hashTable.add(1, 105));
+    ASSERT_TRUE(hashTable.add(2, 206));
     ASSERT_TRUE(hashTable.add(4,407));
 
     ASSERT_TRUE(hashTable.contain(1));
@@ -109,12 +123,39 @@ TEST(dict, contains) {
     ASSERT_FALSE(hashTable.contain(8));
 }
 
-TEST(dict, remove) {
+TEST(dict, removeSet1) {//empty dictionary
     // homework
     ArrayDictionary<int, int> hashTable;
     ASSERT_TRUE(hashTable.isEmpty());
     ASSERT_FALSE(hashTable.remove(1));
-
-
-    ASSERT_TRUE(false); // placeholder
+}
+TEST(dict, removeSet2) {//key exists in a dictionary that has no collision
+    ArrayDictionary<int, int> hashTable;
+    hashTable.add(0, 342);
+    ASSERT_TRUE(hashTable.contain(0));
+    ASSERT_TRUE(hashTable.remove(0));
+    ASSERT_FALSE(hashTable.contain(0));//now empty
+}
+TEST(dict, removeSet3){//key does not exists in a dictionary that has no collision
+    ArrayDictionary<int, int> hashTable;
+    hashTable.add(1, 343);
+    ASSERT_FALSE(hashTable.contain(0));
+    ASSERT_FALSE(hashTable.remove(0));
+    ASSERT_FALSE(hashTable.contain(0));//still contains 1,343
+}
+TEST(dict, removeSet4){//key exists in a dictionary that has collision, key is in the collision.
+    ArrayDictionary<int, int> hashTable;
+    hashTable.add(1, 8);
+    hashTable.add(1, 10);
+    ASSERT_TRUE(hashTable.contain(1));//2 values in that key
+    ASSERT_TRUE(hashTable.remove(1));
+    ASSERT_FALSE(hashTable.contain(1));//now empty
+}
+TEST(dict, removeSet5){//key does not exists in a dictionary that has collision
+    ArrayDictionary<int, int> hashTable;
+    hashTable.add(0, 830);
+    hashTable.add(0, 1030);//the collision
+    ASSERT_FALSE(hashTable.contain(1));
+    ASSERT_FALSE(hashTable.remove(1));
+    ASSERT_FALSE(hashTable.contain(1));
 }

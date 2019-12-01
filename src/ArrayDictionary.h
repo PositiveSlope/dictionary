@@ -124,31 +124,36 @@ public:
 
     bool contain(KeyType const &key) override {
         // homework
-        int hashedKey = hashFunc(key);//import the key in
-        for (int i = 0; i < capacity; i++) {
-            Entry<KeyType, ValueType> *ptr = entries[i];//points to first item in array
-
+        if (!isEmpty()) {//copied the get function
+            ValueType value;
+            int hashedKey = hashFunc(key);
+            Entry<KeyType, ValueType> *ptr = entries[hashedKey];//points to hashedkey in array
             while (ptr != nullptr) {
-                if (key == hashedKey) {
+                if (ptr->key == key) {
+                    value = ptr->value;
                     return true;
                 }
                 ptr = ptr->next;
             }
         }
         return false;
+
     }
 
     void traverse() override {
         // not implemented
     }
 
-    bool remove(KeyType const &key) override {
+    bool remove(KeyType const &key) override {//contains, but removes it
         // homework
-        for (int i = 0; i < capacity; i++) {
-            int hashedKey = hashFunc(key);//import the key in
-            Entry<KeyType, ValueType> *ptr = entries[i];
+        if (!isEmpty()) {//copied the get function
+            ValueType value;
+            int hashedKey = hashFunc(key);
+            Entry<KeyType, ValueType> *ptr = entries[hashedKey];//points to hashedkey in array
             while (ptr != nullptr) {
-                if (key == hashedKey) {
+                if (ptr->key == key) {
+                    //value = ptr->value;
+                    deleteEntry(ptr);
                     return true;
                 }
                 ptr = ptr->next;
